@@ -28,12 +28,6 @@ template "#{node[:newrelic][:memcached_ruby][:plugin_path]}/config/newrelic_plug
   notifies :restart, 'service[newrelic-memcached-ruby-plugin]'
 end
 
-# install bundler gem and run 'bundle install'
-bundle_install do
-  path node[:newrelic][:memcached_ruby][:plugin_path]
-  user node[:newrelic][:memcached_ruby][:user]
-end
-
 # install init.d script and start service
 plugin_service 'newrelic-memcached-ruby-plugin' do
   daemon          './newrelic_memcached_agent'
@@ -41,4 +35,10 @@ plugin_service 'newrelic-memcached-ruby-plugin' do
   plugin_name     'Memcached - Ruby'
   plugin_version  node[:newrelic][:memcached_ruby][:version]
   run_command     "sudo -u #{node[:newrelic][:memcached_ruby][:user]} bundle exec"
+end
+
+# install bundler gem and run 'bundle install'
+bundle_install do
+  path node[:newrelic][:memcached_ruby][:plugin_path]
+  user node[:newrelic][:memcached_ruby][:user]
 end
