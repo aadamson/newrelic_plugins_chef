@@ -32,7 +32,7 @@ agents:
     # Define one or more instances
 <% node[:newrelic][:memcached_ruby][:agents].each do |agent| %>
     -
-      name: '<%= agent.name %>'
+      name: '<%= node.has_key?(:opsworks) ? "#{node[:opsworks][:instance][:hostname]}-memcached" : "memcached"  %>'
       endpoint: '<%= agent.endpoint %>'
       <%- if agent[:port] %>
       port: <%= agent[:port] %>
